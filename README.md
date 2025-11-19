@@ -40,7 +40,7 @@ source venv/bin/activate
 ```
 ### 5. Instale as dependências
 ```bash
-pip install -r requirements.txt
+pip install -r requerements.txt
 ```
 
 ### 6. Execute o projeto
