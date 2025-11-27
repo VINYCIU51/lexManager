@@ -13,22 +13,32 @@
 
 ##  Como utilizar
 
-### 1. Clone o repositório
+### 1. Baixe a versao 3.12 do python
+
+### Windows:
+baixe a versão no site https: //www.python.org/downloads/release/python-3120/
+
+### Linux/macOS:
+```bash
+sudo apt install python3.12 python3.12-venv
+```
+
+### 2. Clone o repositório
 ```bash
 git clone https://github.com/gleiSUN/Programa-advocacia.git
 ```
 
-### 2. Acesse a pasta do projeto
+### 3. Acesse a pasta do projeto
 ```bash
 cd Programa-advocacia
 ```
 
-### 3. Crie um ambiente virtual (venv)
+### 4. Crie um ambiente virtual (venv)
 ```bash
-python -m venv venv
+python3.12 -m venv venv
 ```
 
-### 4. Ative o ambiente virtual
+### 5. Ative o ambiente virtual
 ### Windows:
 ```bash
 venv\Scripts\activate
@@ -38,12 +48,17 @@ venv\Scripts\activate
 ```bash
 source venv/bin/activate
 ```
-### 5. Instale as dependências
+
+### 6. Instale as dependências
 ```bash
-pip install -r requerements.txt
+pip install -r requirements.txt
+```
+Obs: Caso necessário, atualize o pip e depois instale as dependências:
+```bash
+pip install --upgrade pip
 ```
 
-### 6. Execute o projeto
+### 7. Execute o projeto
 ```bash
 python index.py
 ```
