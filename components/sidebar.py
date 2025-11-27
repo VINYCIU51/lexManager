@@ -11,125 +11,36 @@ from components import modal_novo_processo, modal_novo_advogado, modal_advogados
 from app import app
 
 # ========= Layout ========= #
-import dash_bootstrap_components as dbc
-
-# Add FontAwesome CSS link to ensure icons load
-fontawesome_link = html.Link(href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css", rel="stylesheet")
-
 layout = dbc.Container([
-    # Include FontAwesome link at the top to ensure icons appear
-    fontawesome_link,
-    
-    # Modals remain unchanged
-    modal_novo_processo.layout,
-    modal_novo_advogado.layout,
-    modal_advogados.layout,
-    
-    # Main header container with improved styling: dark gray background, red accents
-    dbc.Container([
+        modal_novo_processo.layout,
+        modal_novo_advogado.layout,
+        modal_advogados.layout,
+        dbc.Container([
+            dbc.Row([
+                dbc.Col([
+                    html.H1("ASIMOV", style={'color': 'yellow'})#, 'font-size': 'width / 1.2'})
+                ])
+            ]),
+            dbc.Row([
+                dbc.Col([
+                    html.H3("ASSOCIATES", style={'color': 'white'})
+                ]),
+            ]),
+        ], style={'padding-top': '50px', 'margin-bottom': '100px'}, className='text-center'),
+        html.Hr(),
         dbc.Row([
             dbc.Col([
-                html.H1("LEXManager", 
-                        style={
-                            'color': '#FF0000',  # Bright red for title
-                            'text-shadow': '2px 2px 4px #000000',  # Black shadow for depth
-                            'font-weight': 'bold',
-                            'font-family': 'Arial, sans-serif'
-                        })
+                dbc.Nav([
+                    dbc.NavItem(dbc.NavLink([html.I(className='fa fa-home dbc'), "\tINÍCIO"], href="/home", active=True, style={'text-align': 'left'})),
+                    html.Br(),
+                    dbc.NavItem(dbc.NavLink([html.I(className='fa fa-plus-circle dbc'), "\tPROCESSOS"], id='processo_button', active=True, style={'text-align': 'left'})),
+                    html.Br(),
+                    dbc.NavItem(dbc.NavLink([html.I(className='fa fa-user-plus dbc'), "\tADVOGADOS"], id='lawyers_button', active=True, style={'text-align': 'left'})),
+                ], vertical="lg", pills=True, fill=True)
             ])
         ]),
-        dbc.Row([
-            dbc.Col([
-                html.H3("ASSOCIATES", 
-                        style={
-                            'color': '#FFFFFF',  # White for subtitle
-                            'text-shadow': '1px 1px 2px #000000'  # Subtle black shadow
-                        })
-            ]),
-        ]),
-    ], 
-    style={
-        'padding-top': '50px', 
-        'margin-bottom': '100px', 
-        'background-color': '#333333',  # Dark gray background
-        'border-radius': '10px',  # Rounded corners for modern look
-        'box-shadow': '0 4px 8px rgba(0,0,0,0.5)'  # Shadow for depth
-    }, 
-    className='text-center'),
+], style={'height': '100vh', 'padding': '0px', 'position':'sticky', 'top': 0, 'background-color': '#232423'})
     
-    # Horizontal rule with red color
-    html.Hr(style={'border-color': '#FF0000', 'border-width': '2px'}),
-    
-    # Navigation row with improved styling
-    dbc.Row([
-        dbc.Col([
-            dbc.Nav([
-                dbc.NavItem(dbc.NavLink([
-                    html.I(className='fas fa-home', style={'color': '#FF0000', 'margin-right': '10px'}),  # Red home icon
-                    "INÍCIO"
-                ], href="/home", active=True, 
-                style={
-                    'text-align': 'left', 
-                    'color': '#FFFFFF',  # White text
-                    'background-color': '#333333',  # Dark gray background
-                    'border-radius': '5px',
-                    'padding': '10px',
-                    'margin-bottom': '10px'
-                })),
-                dbc.NavItem(dbc.NavLink([
-                    html.I(className='fas fa-plus-circle', style={'color': '#FF0000', 'margin-right': '10px'}),  # Red plus icon
-                    "PROCESSOS"
-                ], id='processo_button', active=True, 
-                style={
-                    'text-align': 'left', 
-                    'color': '#FFFFFF',
-                    'background-color': '#333333',
-                    'border-radius': '5px',
-                    'padding': '10px',
-                    'margin-bottom': '10px'
-                })),
-                dbc.NavItem(dbc.NavLink([
-                    html.I(className='fas fa-user-plus', style={'color': '#FF0000', 'margin-right': '10px'}),  # Red user-plus icon
-                    "ADVOGADOS"
-                ], id='lawyers_button', active=True, 
-                style={
-                    'text-align': 'left', 
-                    'color': '#FFFFFF',
-                    'background-color': '#333333',
-                    'border-radius': '5px',
-                    'padding': '10px',
-                    'margin-bottom': '10px'
-                })),
-                
-                # ✅ BOTÃO DE LOGOUT ADICIONADO DENTRO DO NAV
-                dbc.NavItem(dbc.NavLink([
-                    html.I(className='fas fa-sign-out-alt', style={'color': '#FF0000', 'margin-right': '10px'}),
-                    "SAIR"
-                ], id='logout-button', active=True, 
-                style={
-                    'text-align': 'left', 
-                    'color': '#FFFFFF',
-                    'background-color': '#333333',
-                    'border-radius': '5px',
-                    'padding': '10px',
-                    'margin-top': '20px'  # Espaço acima do botão
-                })),
-            ], 
-            vertical="lg", 
-            pills=True, 
-            fill=True,
-            style={'background-color': '#333333', 'padding': '20px', 'border-radius': '10px'}  # Dark gray nav background
-            )
-        ])
-    ]),
-], 
-style={
-    'height': '100vh', 
-    'padding': '0px', 
-    'position': 'sticky', 
-    'top': 0, 
-    'background-color': '#333333'  # Overall dark gray background
-})
 
 # ======= Callbacks ======== #
 # Abrir Modal New Lawyer

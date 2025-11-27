@@ -8,83 +8,32 @@ import pandas as pd
 from app import app
 
 # ========= Layout ========= #
-
-
-# Add FontAwesome CSS link to ensure icons load (if not already in your app)
-fontawesome_link = html.Link(href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css", rel="stylesheet")
-
 layout = dbc.Modal([
-    # Include FontAwesome link at the top to ensure icons appear
-    fontawesome_link,
-    
-    dbc.ModalHeader(
-        dbc.ModalTitle([
-            html.I(className='fas fa-user-plus', style={'margin-right': '10px', 'color': '#FF0000'}),  # Red user-plus icon
-            "Adicione Um Advogado"
-        ], 
-        style={
-            'color': '#FF0000',  # Red title
-            'text-shadow': '2px 2px 4px #000000',  # Black shadow for depth
-            'font-weight': 'bold',
-            'font-size': '24px'  # Larger font for impact
-        }),
-        style={'background-color': '#333333', 'border-bottom': '3px solid #FF0000', 'border-radius': '10px 10px 0 0'}  # Gray header with red border and rounded top
-    ),
-    dbc.ModalBody([
-        dbc.Row([
-            dbc.Col([
-                dbc.Label("OAB", style={'color': '#FF0000', 'font-weight': 'bold'}),  # Red label
-                dbc.Input(id="adv_oab", placeholder="Apenas números, referente a OAB...", type="number", 
-                          style={'background-color': '#FFFFFF', 'color': '#000000', 'border-color': '#FF0000'})  # White input with red border
-            ], sm=12, md=6),
-            dbc.Col([
-                dbc.Label("CPF", style={'color': '#FF0000', 'font-weight': 'bold'}),  # Red label
-                dbc.Input(id="adv_cpf", placeholder="Apenas números, CPF...", type="number", 
-                          style={'background-color': '#FFFFFF', 'color': '#000000', 'border-color': '#FF0000'})  # White input with red border
-            ], sm=12, md=6),
-        ]),
-        dbc.Row([
-            dbc.Col([
-                dbc.Label("Nome", style={'color': '#FF0000', 'font-weight': 'bold'}),  # Red label
-                dbc.Input(id="adv_nome", placeholder="Nome completo do advogado...", type="text", 
-                          style={'background-color': '#FFFFFF', 'color': '#000000', 'border-color': '#FF0000'})  # White input with red border
+            dbc.ModalHeader(dbc.ModalTitle("Adicione Um Advogado")),
+            dbc.ModalBody([
+                dbc.Row([
+                    dbc.Col([
+                        dbc.Label("OAB"),
+                        dbc.Input(id="adv_oab", placeholder="Apenas números, referente a OAB...", type="number")
+                    ], sm=12, md=6),
+                    dbc.Col([
+                        dbc.Label("CPF"),
+                        dbc.Input(id="adv_cpf", placeholder="Apenas números, CPF...", type="number")
+                    ], sm=12, md=6),
+                ]),
+                dbc.Row([
+                    dbc.Col([
+                        dbc.Label("Nome"),
+                        dbc.Input(id="adv_nome", placeholder="Nome completo do advogado...", type="text")
+                    ]),
+                ]),
+                html.H5(id='div_erro2')
             ]),
-        ]),
-        html.H5(id='div_erro2', style={'color': '#FF0000', 'text-align': 'center', 'margin-top': '20px'})  # Red error message, centered
-    ], style={'background-color': '#333333', 'color': '#FFFFFF', 'padding': '20px'}),  # Gray body with padding
-    dbc.ModalFooter([
-        dbc.Button([
-            html.I(className='fas fa-times', style={'margin-right': '8px', 'color': '#FFFFFF'}),  # White close icon
-            "Cancelar"
-        ], id="cancel_button_novo_advogado", 
-        style={
-            'background-color': '#FF0000', 
-            'border-color': '#FF0000', 
-            'color': '#FFFFFF',
-            'border-radius': '5px',
-            'font-weight': 'bold'
-        },  # Red button
-        color="danger"),
-        dbc.Button([
-            html.I(className='fas fa-save', style={'margin-right': '8px', 'color': '#FF0000'}),  # Red save icon
-            "Salvar"
-        ], id="save_button_novo_advogado", 
-        style={
-            'background-color': '#333333', 
-            'border-color': '#FF0000', 
-            'color': '#FFFFFF',
-            'border-radius': '5px',
-            'font-weight': 'bold'
-        },  # Gray button with red border
-        color="success")
-    ], style={'background-color': '#333333', 'border-top': '3px solid #FF0000', 'border-radius': '0 0 10px 10px'})  # Gray footer with red border and rounded bottom
-], id="modal_new_lawyer", size="lg", is_open=False, 
-style={
-    'background-color': '#333333', 
-    'border-radius': '10px', 
-    'box-shadow': '0 8px 16px rgba(0,0,0,0.7)',  # Strong shadow
-    'border': '2px solid #FF0000'  # Red border around modal
-})
+            dbc.ModalFooter([
+                dbc.Button("Cancelar", id="cancel_button_novo_advogado", color="danger"),
+                dbc.Button("Salvar", id="save_button_novo_advogado", color="success")
+            ])
+        ], id="modal_new_lawyer", size="lg", is_open=False)
 
 
 # ======= Callbacks ======== #

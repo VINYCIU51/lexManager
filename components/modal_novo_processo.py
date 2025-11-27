@@ -15,193 +15,126 @@ from sql_beta import df_proc, df_adv
 col_centered_style={'display': 'flex', 'justify-content': 'center'}
 
 # ========= Layout ========= #
-import dash_bootstrap_components as dbc
-from datetime import date
-
-# Assuming col_centered_style, df_adv, and other variables are defined elsewhere
-# Add FontAwesome CSS link to ensure icons load (if not already in your app)
-fontawesome_link = html.Link(href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css", rel="stylesheet")
-
 layout = dbc.Modal([
-    # Include FontAwesome link at the top to ensure icons appear
-    fontawesome_link,
-    
-    dbc.ModalHeader(
-        dbc.ModalTitle([
-            html.I(className='fas fa-plus-circle', style={'margin-right': '10px', 'color': '#FF0000'}),  # Red plus-circle icon
-            "Adicione Um Processo"
-        ], 
-        style={
-            'color': '#FF0000',  # Red title
-            'text-shadow': '2px 2px 4px #000000',  # Black shadow for depth
-            'font-weight': 'bold',
-            'font-size': '24px'  # Larger font for impact
-        }),
-        style={'background-color': '#333333', 'border-bottom': '3px solid #FF0000', 'border-radius': '10px 10px 0 0'}  # Gray header with red border and rounded top
-    ),
-    dbc.ModalBody([
-        dbc.Row([
-            dbc.Col([
-                # Empresa
-                dbc.Label('Empresa', html_for='empresa_matriz', style={'color': '#FF0000', 'font-weight': 'bold'}),  # Red label
-                dcc.Dropdown(id='empresa_matriz', clearable=False, className='dbc',
-                    options=['Escritório Matriz', 'Filial Porto Alegre', 'Filial Curitiba', 'Filial Canoas'],
-                    style={'background-color': '#FFFFFF', 'color': '#000000', 'border-color': '#FF0000'}),  # White dropdown with red border
-                # Tipo de Processo
-                dbc.Label('Tipo de Processo', html_for='tipo_processo', style={'color': '#FF0000', 'font-weight': 'bold'}),  # Red label
-                dcc.Dropdown(id='tipo_processo', clearable=False, className='dbc',
-                    options=['Civil', 'Criminal', 'Previdenciário', 'Trabalhista', 'Vara de Família'],
-                    style={'background-color': '#FFFFFF', 'color': '#000000', 'border-color': '#FF0000'}),  # White dropdown with red border
-                # Ação
-                dbc.Label('Ação', html_for='acao', style={'color': '#FF0000', 'font-weight': 'bold'}),  # Red label
-                dcc.Dropdown(id='acao', clearable=False, className='dbc',
-                    options=['Alimentos', 'Busca e Apreensão', 'Cautelar Inominada', 'Consignação', 'Habeas Corpus', 'Mandado de Segurança', 'Reclamação'],
-                    style={'background-color': '#FFFFFF', 'color': '#000000', 'border-color': '#FF0000'}),  # White dropdown with red border
-            ], sm=12, md=4),
-            dbc.Col([
-                dbc.Label("Descrição", html_for='input_desc', style={'color': '#FF0000', 'font-weight': 'bold'}),  # Red label
-                dbc.Textarea(id="input_desc", placeholder="Escreva aqui observações sobre o processo...", 
-                             style={'height': '80%', 'background-color': '#FFFFFF', 'color': '#000000', 'border-color': '#FF0000'}),  # White textarea with red border
-            ], sm=12, md=8)
-        ]),
-        html.Hr(style={'border-color': '#FF0000', 'border-width': '2px'}),  # Red horizontal rule
-        dbc.Row([
-            dbc.Col([
-                dbc.Label("Vara", html_for='vara', style={'color': '#FF0000', 'font-weight': 'bold'}),  # Red label
-                dbc.RadioItems(id='vara',
-                    options=[{'label': 'Civil', 'value': 'Civil'},
+            dbc.ModalHeader(dbc.ModalTitle("Adicione Um Processo")),
+            dbc.ModalBody([
+                dbc.Row([
+                    dbc.Col([
+                        # Empresa
+                        dbc.Label('Empresa', html_for='empresa_matriz'),
+                        dcc.Dropdown(id='empresa_matriz', clearable=False, className='dbc',
+                            options=['Escritório Matriz', 'Filial Porto Alegre', 'Filial Curitiba', 'Filial Canoas']),
+                        # Tipo de Processo
+                        dbc.Label('Tipo de Processo', html_for='tipo_processo'),
+                        dcc.Dropdown(id='tipo_processo', clearable=False, className='dbc',
+                            options=['Civil', 'Criminal', 'Previdenciário', 'Trabalhista', 'Vara de Família']),
+                        # Tipo de Processo
+                        dbc.Label('Ação', html_for='acao'),
+                        dcc.Dropdown(id='acao', clearable=False, className='dbc',
+                            options=['Alimentos', 'Busca e Apreensão', 'Cautelar Inominada', 'Consignação', 'Habeas Corpus', 'Mandado de Segurança', 'Reclamação']),
+                    ], sm=12, md=4),
+                    dbc.Col([
+                        dbc.Label("Descrição", html_for='input_desc'),
+                        dbc.Textarea(id="input_desc", placeholder="Escreva aqui observações sobre o processo...", style={'height': '80%'}),
+                    ], sm=12, md=8)
+                ]),
+                html.Hr(),
+                dbc.Row([
+                    dbc.Col([
+                        dbc.Label("Vara", html_for='vara'),
+                        dbc.RadioItems(id='vara',
+                            options=[{'label': 'Civil', 'value': 'Civil'},
                             {'label': 'Conciliação e Julgamento', 'value': 'Conciliação e Julgamento'},
                             {'label': 'Trabalhista', 'value': 'Trabalhista'},
-                            {'label': 'Vara de Família', 'value': 'Vara de Família'}],
-                    style={'color': '#FFFFFF'})  # White text for radio items
-            ], sm=12, md=4),
-            dbc.Col([
-                dbc.Label("Fase", html_for='fase', style={'color': '#FF0000', 'font-weight': 'bold'}),  # Red label
-                dbc.RadioItems(id='fase', inline=True,
-                    options=[{'label': 'Elaboração', 'value': 'Elaboração'},
+                            {'label': 'Vara de Família', 'value': 'Vara de Família'}])
+                    ], sm=12, md=4),
+                    dbc.Col([
+                        dbc.Label("Fase", html_for='fase'),
+                        dbc.RadioItems(id='fase', inline=True,
+                            options=[{'label': 'Elaboração', 'value': 'Elaboração'},
                             {'label': 'Execução', 'value': 'Execução'},
                             {'label': 'Impugnação', 'value': 'Impugnação'},
                             {'label': 'Instrução', 'value': 'Instrução'},
                             {'label': 'Recurso', 'value': 'Recurso'},
-                            {'label': 'Suspenso', 'value': 'Suspenso'}],
-                    style={'color': '#FFFFFF'})  # White text for radio items
-            ], sm=12, md=5),
-            dbc.Col([
-                dbc.Label("Instância", html_for='instancia', style={'color': '#FF0000', 'font-weight': 'bold'}),  # Red label
-                dbc.RadioItems(id='instancia',
-                    options=[{'label': '1A Instância', 'value': 1},
-                            {'label': '2A Instância', 'value': 2}],
-                    style={'color': '#FFFFFF'})  # White text for radio items
-            ], sm=12, md=3)
-        ]),
-        html.Hr(style={'border-color': '#FF0000', 'border-width': '2px'}),  # Red horizontal rule
-        dbc.Row([
-            dbc.Col([
-                dbc.Row([
+                            {'label': 'Suspenso', 'value': 'Suspenso'}])
+                    ], sm=12, md=5),
                     dbc.Col([
-                        dbc.Label("Data Inicial - Data Final", style={'color': '#FF0000', 'font-weight': 'bold'})  # Red label
-                    ], style=col_centered_style),
-                    dbc.Col([
-                        dcc.DatePickerSingle(
-                            id='data_inicial',
-                            className='dbc',
-                            min_date_allowed=date(1999, 12, 31),
-                            max_date_allowed=date(2030, 12, 31),
-                            initial_visible_month=date.today(),
-                            date=date.today(),
-                            style={'background-color': '#FFFFFF', 'color': '#000000', 'border-color': '#FF0000'}  # White date picker with red border
-                        ),
-                        dcc.DatePickerSingle(
-                            id='data_final',
-                            className='dbc',
-                            min_date_allowed=date(1999, 12, 31),
-                            max_date_allowed=date(2030, 12, 31),
-                            initial_visible_month=date.today(),
-                            date=None,
-                            style={'background-color': '#FFFFFF', 'color': '#000000', 'border-color': '#FF0000'}  # White date picker with red border
-                        ),
-                    ], style=col_centered_style)
+                        dbc.Label("Instância", html_for='instancia'),
+                        dbc.RadioItems(id='instancia',
+                            options=[{'label': '1A Instância', 'value': 1},
+                            {'label': '2A Instância', 'value': 2},])
+                    ], sm=12, md=3)
                 ]),
-                html.Br(),
-                dbc.Switch(id='processo_concluido', label="Processo Concluído", value=False, 
-                           style={'color': '#FFFFFF'}),  # White label for switch
-                dbc.Switch(id='processo_vencido', label="Processo Vencido", value=False, 
-                           style={'color': '#FFFFFF'}),  # White label for switch
-                html.P("O filtro de data final só será computado se o checklist estiver marcado.", className='dbc', 
-                       style={'font-size': '80%', 'color': '#FFFFFF'}),  # White text for note
-            ], sm=12, md=5),
-            dbc.Col([
+                html.Hr(),
                 dbc.Row([
                     dbc.Col([
-                        dbc.Label("Selecione o advogado responsável: ", style={'color': '#FF0000', 'font-weight': 'bold'}),  # Red label
-                        dcc.Dropdown(
-                            id='advogados_envolvidos',
-                            options=[{'label': i, 'value': i} for i in df_adv['Advogado']],
-                            className='dbc',
-                            style={'background-color': '#FFFFFF', 'color': '#000000', 'border-color': '#FF0000'}  # White dropdown with red border
-                        )
-                    ])
+                        dbc.Row([
+                            dbc.Col([
+                                dbc.Label("Data Inicial - Data Final")
+                            ], style=col_centered_style),
+                            dbc.Col([
+                                dcc.DatePickerSingle(
+                                    id='data_inicial',
+                                    className='dbc',
+                                    min_date_allowed=date(1999, 12, 31),
+                                    max_date_allowed=date(2030, 12, 31),
+                                    initial_visible_month=date.today(),
+                                    date=date.today()
+                                ),
+                                dcc.DatePickerSingle(
+                                    id='data_final',
+                                    className='dbc',
+                                    min_date_allowed=date(1999, 12, 31),
+                                    max_date_allowed=date(2030, 12, 31),
+                                    initial_visible_month=date.today(),
+                                    date=None
+                                ),
+                            ], style=col_centered_style)
+                        ]),
+                        html.Br(),
+                        dbc.Switch(id='processo_concluido', label="Processo Concluído", value=False),
+                        dbc.Switch(id='processo_vencido', label="Processo Vencido", value=False),
+                        html.P("O filtro de data final só será computado se o checklist estiver marcado.", className='dbc', style={'font-size': '80%'}),
+                    ], sm=12, md=5),
+                    dbc.Col([
+                        dbc.Row([
+                            dbc.Col([
+                                dbc.Label("Selecione o advogado responsável: "),
+                                dcc.Dropdown(
+                                    id='advogados_envolvidos',
+                                    options=[{'label': i, 'value': i} for i in df_adv['Advogado']],
+                                    className='dbc'
+                                )
+                            ])
+                        ]),
+                        dbc.Row([
+                            dbc.Col([
+                                dbc.Input(id="input_cliente", placeholder="Nome completo do cliente...", type="text")
+                            ])
+                        ], style={'margin-top': '15px', 'padding': '15px'}),
+                        dbc.Row([
+                            dbc.Col([
+                                dbc.Input(id="input_cliente_cpf", placeholder="CPF do cliente (apenas números)...", type="number")
+                            ])
+                        ], style={'padding': '15px'}),
+                    ], sm=12, md=7)
                 ]),
                 dbc.Row([
                     dbc.Col([
-                        dbc.Input(id="input_cliente", placeholder="Nome completo do cliente...", type="text", 
-                                  style={'background-color': '#FFFFFF', 'color': '#000000', 'border-color': '#FF0000'})  # White input with red border
-                    ])
-                ], style={'margin-top': '15px', 'padding': '15px'}),
-                dbc.Row([
+                        dcc.Dropdown(id='input_local_arquivo', clearable=False, className='dbc', placeholder="Local de Arquivo/Local Físico",
+                            options=['Armário Principal', 'Armário 17 gaveta 2', 'Armário 5 gaveta 1', 'Arquivo 01', 'Arquivo 02']),
+                    ], sm=12, md=5, style={'padding': '15px'}),
                     dbc.Col([
-                        dbc.Input(id="input_cliente_cpf", placeholder="CPF do cliente (apenas números)...", type="number", 
-                                  style={'background-color': '#FFFFFF', 'color': '#000000', 'border-color': '#FF0000'})  # White input with red border
-                    ])
-                ], style={'padding': '15px'}),
-            ], sm=12, md=7)
-        ]),
-        dbc.Row([
-            dbc.Col([
-                dcc.Dropdown(id='input_local_arquivo', clearable=False, className='dbc', placeholder="Local de Arquivo/Local Físico",
-                    options=['Armário Principal', 'Armário 17 gaveta 2', 'Armário 5 gaveta 1', 'Arquivo 01', 'Arquivo 02'],
-                    style={'background-color': '#FFFFFF', 'color': '#000000', 'border-color': '#FF0000'})  # White dropdown with red border
-            ], sm=12, md=5, style={'padding': '15px'}),
-            dbc.Col([
-                dbc.Input(id="input_no_processo", placeholder="Insira o número do Processo", type="number", disabled=False, 
-                          style={'background-color': '#FFFFFF', 'color': '#000000', 'border-color': '#FF0000'})  # White input with red border
-            ], sm=12, md=7, style={'padding': '15px'})
-        ], style={'margin-top': '15px'}),
-        html.H5(id='div_erro', style={'color': '#FF0000', 'text-align': 'center', 'margin-top': '20px'})  # Red error message, centered
-    ], style={'background-color': '#333333', 'color': '#FFFFFF', 'padding': '20px'}),  # Gray body with padding
-    dbc.ModalFooter([
-        dbc.Button([
-            html.I(className='fas fa-times', style={'margin-right': '8px', 'color': '#FFFFFF'}),  # White close icon
-            "Cancelar"
-        ], id="cancel_button_novo_processo", 
-        style={
-            'background-color': '#FF0000', 
-            'border-color': '#FF0000', 
-            'color': '#FFFFFF',
-            'border-radius': '5px',
-            'font-weight': 'bold'
-        },  # Red button
-        color="danger"),
-        dbc.Button([
-            html.I(className='fas fa-save', style={'margin-right': '8px', 'color': '#FF0000'}),  # Red save icon
-            "Salvar"
-        ], id="save_button_novo_processo", 
-        style={
-            'background-color': '#333333', 
-            'border-color': '#FF0000', 
-            'color': '#FFFFFF',
-            'border-radius': '5px',
-            'font-weight': 'bold'
-        },  # Gray button with red border
-        color="success")
-    ], style={'background-color': '#333333', 'border-top': '3px solid #FF0000', 'border-radius': '0 0 10px 10px'})  # Gray footer with red border and rounded bottom
-], id="modal_processo", size="lg", is_open=False, 
-style={
-    'background-color': '#333333', 
-    'border-radius': '10px', 
-    'box-shadow': '0 8px 16px rgba(0,0,0,0.7)',  # Strong shadow
-    'border': '2px solid #FF0000'  # Red border around modal
-})
+                        dbc.Input(id="input_no_processo", placeholder="Insira o número do Processo", type="number", disabled=False)
+                    ], sm=12, md=7, style={'padding': '15px'})
+                ], style={'margin-top': '15px'}),
+                html.H5(id='div_erro')
+            ]),
+            dbc.ModalFooter([
+                dbc.Button("Cancelar", id="cancel_button_novo_processo", color="danger"),
+                dbc.Button("Salvar", id="save_button_novo_processo", color="success"),
+            ]),
+        ], id="modal_processo", size="lg", is_open=False)
 
 # Callback para teste de abrir o modal
 @app.callback(
