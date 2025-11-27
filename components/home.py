@@ -136,33 +136,13 @@ def gerar_card_processo(df_aux, color_c, color_v, concluido, vencido, concluido_
 
 
 # ========= Layout ========= #
-import dash_bootstrap_components as dbc
-
-
-# Assuming df_adv is defined elsewhere, and modal components if needed
-
-# Add FontAwesome CSS link to ensure icons load (if not already in your app)
-fontawesome_link = html.Link(href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css", rel="stylesheet")
-
 layout = dbc.Container([
-    # Include FontAwesome link at the top to ensure icons appear
-    fontawesome_link,
-    
     dbc.Row([
         dbc.Col([
-            html.H3("ENCONTRE O PROCESSO QUE VOCÊ PROCURA", 
-                    style={
-                        'text-align': 'left', 
-                        'margin-left': '32px',
-                        'color': '#FF0000',  # Red title
-                        'text-shadow': '1px 1px 2px #000000',  # Black shadow for depth
-                        'font-weight': 'bold'
-                    })
+            html.H3("ENCONTRE O PROCESSO QUE VOCÊ PROCURA", style={'text-align': 'left', 'margin-left': '32px'})
         ], className='text-center')
     ], style={'margin-top': '14px'}),
-    
-    html.Hr(style={'border-color': '#FF0000', 'border-width': '2px'}),  # Red horizontal rule
-    
+    html.Hr(),
     dbc.Row([
         # Filtros
         dbc.Col([
@@ -172,24 +152,20 @@ layout = dbc.Container([
                         dbc.CardBody([
                             dbc.Row([
                                 dbc.Col([
-                                    html.H3("Nº DO PROCESSO", style={'color': '#FF0000'})  # Red title
+                                    html.H3("Nº DO PROCESSO")
                                 ], sm=12)
                             ]),
                             dbc.Row([
                                 dbc.Col([
-                                    dbc.Input(id='processos_filter', placeholder="Insira...", type="number", 
-                                              style={'background-color': '#FFFFFF', 'color': '#000000'})  # White input with black text
+                                    dbc.Input(id='processos_filter', placeholder="Insira...", type="number")
                                 ], sm=12, md=12, lg=8),
                                 dbc.Col([
-                                    dbc.Button([html.I(className='fas fa-search', style={'color': '#FF0000'})],  # Red search icon
-                                               id="pesquisar_num_proc", color='dark', 
-                                               style={'background-color': '#333333', 'border-color': '#FF0000'})  # Gray button with red border
+                                    dbc.Button([html.I(className='fa fa-search')], id="pesquisar_num_proc", color='dark')
                                 ], sm=12, md=12, lg=4)
                             ], style={'margin-bottom': '32px'}),
-                            
                             dbc.Row([
                                 dbc.Col([
-                                    html.H3("STATUS", style={'color': '#FF0000'})  # Red title
+                                    html.H3("STATUS")
                                 ])
                             ], style={'margin-top': '32px'}),
                             dbc.Row([
@@ -199,14 +175,12 @@ layout = dbc.Container([
                                         value=[],
                                         id="switches_input",
                                         switch=True,
-                                        style={'color': '#FFFFFF'}  # White text for switches
                                     ),
                                 ])
                             ]),
-                            
                             dbc.Row([
                                 dbc.Col([
-                                    html.H3("INSTÂNCIA", style={'color': '#FF0000'})  # Red title
+                                    html.H3("INSTÂNCIA")
                                 ])
                             ], style={'margin-top': '24px'}),
                             dbc.Row([
@@ -215,32 +189,26 @@ layout = dbc.Container([
                                         options=[{"label": "1a Instância", "value": 1}, 
                                                 {"label": "2a Instância", "value": 2}],
                                         value=[1, 2],
-                                        id="checklist_input",
-                                        style={'color': '#FFFFFF'}  # White text
+                                        id="checklist_input"
                                     ),
                                 ])
                             ]),
-                            
                             dbc.Row([
                                 dbc.Col([
-                                    html.H3("CPF DO CLIENTE", style={'color': '#FF0000'})  # Red title
+                                    html.H3("CPF DO CLIENTE")
                                 ])
                             ], style={'margin-top': '24px'}),
                             dbc.Row([
                                 dbc.Col([
-                                    dbc.Button([html.I(className='fas fa-search', style={'color': '#FF0000'})],  # Red search icon
-                                               id="pesquisar_cpf", color='light', 
-                                               style={'background-color': '#FFFFFF', 'border-color': '#FF0000'})  # White button with red border
+                                    dbc.Button([html.I(className='fa fa-search')], id="pesquisar_cpf", color='light')
                                 ], sm=2),
                                 dbc.Col([
-                                    dbc.Input(id="input_cpf_pesquisa", placeholder="DIGITE O CPF", type="number", 
-                                              style={'background-color': '#FFFFFF', 'color': '#000000'})  # White input
+                                    dbc.Input(id="input_cpf_pesquisa", placeholder="DIGITE O CPF", type="number")
                                 ], sm=10)
                             ]),
-                            
                             dbc.Row([
                                 dbc.Col([
-                                    html.H3("ADVOGADO", style={'color': '#FF0000'})  # Red title
+                                    html.H3("ADVOGADO")
                                 ])
                             ], style={'margin-top': '24px'}),
                             dbc.Row([
@@ -249,33 +217,27 @@ layout = dbc.Container([
                                         id='advogados_filter',
                                         options=[{'label': i, 'value': i} for i in df_adv['Advogado']],
                                         placeholder='SELECIONE O ADVOGADO',
-                                        className='dbc',
-                                        style={'background-color': '#FFFFFF', 'color': '#000000'}  # White dropdown
+                                        className='dbc'
                                     ),
                                 ])
                             ]),
-                            
                             dbc.Row([
                                 dbc.Col([
-                                    dbc.Button("Todos os Processos", id="todos_processos", 
-                                               style={'width': '100%', 'background-color': '#333333', 'border-color': '#FF0000', 'color': '#FFFFFF'},  # Gray button with red border, white text
-                                               color="dark")
+                                    dbc.Button("Todos os Processos", id="todos_processos", style={'width': '100%'}, color="dark")
                                 ])
                             ], style={'margin-top': '24px'})
-                        ], style={'margin': '20px', 'background-color': '#333333', 'color': '#FFFFFF'})  # Gray card background, white text
-                    ], style={'background-color': '#333333', 'border-color': '#FF0000', 'border-radius': '10px', 'box-shadow': '0 4px 8px rgba(0,0,0,0.5)'})  # Gray card with red border, rounded corners, shadow
+                        ], style={'margin': '20px'})
+                    ])
                 ])
             ])
         ], sm=12, md=5, lg=4),
-        
         dbc.Col([
-            dbc.Container(id='card_generator', fluid=True, 
-                          style={'width': '100%', 'padding': '0px 0px 0px 0px', 'margin': '0px 0px 0px 0px', 'background-color': '#333333', 'border-radius': '10px'}),  # Gray background for card area
+            dbc.Container(id='card_generator', fluid=True, style={'width': '100%', 'padding': '0px 0px 0px 0px', 'margin': '0px 0px 0px 0px'}),
             html.Div(id='div_fant')
         ], sm=12, md=7, lg=8, style={'padding-left': '0px'})
     ])
 
-], fluid=True, style={'height': '100%', 'padding': '10px', 'margin': 0, 'padding-left': 0, 'background-color': '#333333'})  # Overall gray background
+], fluid=True, style={'height': '100%', 'padding': '10px', 'margin': 0, 'padding-left': 0})
 
 
 # ======= Callbacks ======== #
